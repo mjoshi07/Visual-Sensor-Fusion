@@ -87,6 +87,7 @@
        ├── models
           ├── yolov4
           |  ├── yolov4.cfg
+          |  ├── coco.names
        ├── output
           ├── images
           ├── videos
