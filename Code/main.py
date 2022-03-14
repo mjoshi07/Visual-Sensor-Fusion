@@ -3,7 +3,6 @@ import numpy as np
 import cv2
 import open3d as o3d
 import random
-import LiDAR_to_Camera as l2c
 import glob
 import classes as cl
 
@@ -16,9 +15,7 @@ def low_level_fusion(data_dir, show_random_pcl=False):
         pcd = o3d.io.read_point_cloud(pts[idx])
         o3d.visualization.draw_geometries([pcd])
 
-    exit()
-
-    lidar2cam = l2c.LiDAR2Camera(calbs[0])
+    lidar2cam = cl.LiDAR2Camera(calbs[0])
     print("P :"+str(lidar2cam.P))
     print("-")
     print("RO "+str(lidar2cam.R0))
@@ -29,13 +26,13 @@ def low_level_fusion(data_dir, show_random_pcl=False):
     video_points = sorted(glob.glob(data_dir+"//test//video4//points/*.pcd"))
 
     # Build a LiDAR2Camera object
-    lidar2cam = l2c.LiDAR2Camera(calbs[0])
+    lidar2cam = cl.LiDAR2Camera(calbs[0])
 
     result_video = []
 
-    weights = "..//Data//model//yolov4//yolov4.weights"
-    config = "..//Data//model//yolov4//yolov4.cfg"
-    names = "..//Data//model//yolov4//coco.names"
+    weights = data_dir + "//model//yolov4//yolov4.weights"
+    config = data_dir + "//model//yolov4//yolov4.cfg"
+    names = data_dir + "//model//yolov4//coco.names"
 
     detector = cl.Detector(0.4)
     detector.load_model(weights, config, names)
@@ -62,9 +59,9 @@ def low_level_fusion(data_dir, show_random_pcl=False):
 def mid_level_fusion(data_dir, index=0):
     imgs, pts, labels, calibs = ut.load_data(data_dir)
 
-    weights = "E:\\programming\\github\\Visual-Sensor-Fusion\\Data\\model\\yolov4\\yolov4.weights"
-    config = "E:\\programming\\github\\Visual-Sensor-Fusion\\Data\\model\\yolov4\\yolov4.cfg"
-    names = "E:\\programming\\github\\Visual-Sensor-Fusion\\Data\\model\\yolov4\\coco.names"
+    weights = data_dir + "//model//yolov4//yolov4.weights"
+    config = data_dir + "//model//yolov4//yolov4.cfg"
+    names = data_dir + "//model//yolov4//coco.names"
 
     detector = cl.Detector(0.4)
     detector.load_model(weights, config, names)
@@ -75,7 +72,7 @@ def mid_level_fusion(data_dir, index=0):
     image = cv2.imread(imgs[index])
 
     # create LiDAR2Camera object
-    lidar2cam = l2c.LiDAR2Camera(calibs[index])
+    lidar2cam = cl.LiDAR2Camera(calibs[index])
 
     # 1 - Run 2D object detection on image
     detections, yolo_detections = detector.detect(image, draw_bboxes=False, display_labels=False)
@@ -118,5 +115,5 @@ def mid_level_fusion(data_dir, index=0):
 
 if __name__ == "__main__":
     data_dir = "..//Data//"
-    low_level_fusion(data_dir, show_random_pcl=True)
-    # mid_level_fusion(data_dir)
+    # low_level_fusion(data_dir, show_random_pcl=True)
+    mid_level_fusion(data_dir)
