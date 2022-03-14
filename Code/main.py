@@ -1,4 +1,5 @@
 import cv2
+import os
 import random
 import glob
 import numpy as np
@@ -13,6 +14,11 @@ import FusionUtils as fu
 
 def low_level_fusion(data_dir, show_random_pcl=False, display_video=True,  save_video=False):
     imgs, pts, lbls, calbs = ut.load_data(data_dir)
+
+    if save_video:
+        out_dir = os.path.join(data_dir, "output//videos")
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
 
     if show_random_pcl:
         idx = random.randint(0, len(pts) - 1)
@@ -57,7 +63,7 @@ def low_level_fusion(data_dir, show_random_pcl=False, display_video=True,  save_
             result_video.append(image)
 
     if save_video:
-        out = cv2.VideoWriter('..//Data//output//videos//fused_result.avi', cv2.VideoWriter_fourcc(*'DIVX'), 30, (image.shape[1], image.shape[0]))
+        out = cv2.VideoWriter(os.path.join(out_dir, "fused_result.avi"), cv2.VideoWriter_fourcc(*'DIVX'), 30, (image.shape[1], image.shape[0]))
 
         for i in range(len(result_video)):
             # out.write(cv2.cvtColor(result_video[i], cv2.COLOR_BGR2RGB))
@@ -67,6 +73,11 @@ def low_level_fusion(data_dir, show_random_pcl=False, display_video=True,  save_
 
 def mid_level_fusion(data_dir, index=0, display_image=True, save_image=False):
     imgs, pts, labels, calibs = ut.load_data(data_dir)
+
+    if save_image:
+        out_dir = os.path.join(data_dir, "output//images")
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
 
     weights = data_dir + "//model//yolov4//yolov4.weights"
     config = data_dir + "//model//yolov4//yolov4.cfg"
@@ -123,7 +134,7 @@ def mid_level_fusion(data_dir, index=0, display_image=True, save_image=False):
         cv2.imshow("final_image", final_image)
         cv2.waitKey(0)
     if save_image:
-        cv2.imwrite("fused_result.png", final_image)
+        cv2.imwrite(os.path.join(out_dir,"fused_result.png"), final_image)
 
     return final_image
 
