@@ -30,7 +30,7 @@
 * One way to resolve this is to shrink the bounding box size so that the points that absolutely belong to the desired objects are only considered.
 * Another way is to use the Sigma Rule, i.e include the points that are within 1 sigma or 2 sigma away from gaussian mean
 
-## Medium-Level Fusion
+## Mid-Level Fusion
 ### Yolo Detections
 <p align="center">
 <img src="https://github.com/mjoshi07/Visual-Sensor-Fusion/blob/main/Data/output/images/yolo_detections.png" width=640/>
