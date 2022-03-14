@@ -60,6 +60,41 @@
 * Green Bounding Boxes are detected by YOlO whereas Blue Bounding Boxes are calculated using LiDAR points
 * YOLO missed 1 vehicle, whereas 2 vehicles are missed by LiDAR, one of which is half out of frame, at the bottom right side
 
+## File Structure
+    .
+    ├── Code
+    |  ├── main.py
+    |  ├── Fusion.py
+    |  ├── Lidar2Camera.py
+    |  ├── YoloDetector.py
+    |  ├── Utils.py
+    |  ├── FusionUtils.py
+    |  ├── LidarUtils.py
+    |  ├── YoloUtils.py
+    ├── Data
+       ├── calibs
+       |  ├── 000031.txt
+       |  ├── 000035.txt
+       |  ├── ...
+       ├── images
+       |  ├── 000031.png
+       |  ├── 000035.png 
+       |  ├── ...
+       ├── labels
+       |  ├── 000031.txt
+       |  ├── 000035.txt 
+       |  ├── ...
+       ├── models
+          ├── yolov4
+          |  ├── yolov4.cfg
+       ├── output
+          ├── images
+          ├── videos
+       ├── points
+       |  ├── 000031.pcd
+       |  ├── 000035.pcd 
+       |  ├── ...
+
 ### TODO
 - [ ] Add Run Instructions
 - [ ] Add Dependencies
