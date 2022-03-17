@@ -28,7 +28,7 @@
 * The points that lie within the detected 2D Bounding Box by YOLO are stored and rest are ignored
 * Some points that do not belong to an object might also be considered since we used only (x, y) coordinates of the projected LiDAR points.
 * One way to resolve this is to shrink the bounding box size so that the points that absolutely belong to the desired objects are only considered.
-* Another way is to use the Sigma Rule, i.e include the points that are within 1 sigma or 2 sigma away from gaussian mean
+* Another way is to use the Sigma Rule, i.e include the points that are within 1 sigma or 2 sigma away from gaussian mean, based on the distance of points
 
 ## Mid-Level Fusion
 ### Yolo Detections
