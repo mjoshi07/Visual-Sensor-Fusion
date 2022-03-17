@@ -9,14 +9,14 @@
 <img src="https://github.com/mjoshi07/Visual-Sensor-Fusion/blob/main/Data/output/videos/out4_yolo_small.gif"/>
 </p>
 
-### Lidar Points Projection
-<p align="center">
-<img src="https://github.com/mjoshi07/Visual-Sensor-Fusion/blob/main/Data/output/videos/out4_lidar_small.gif"/>
-</p>
-
-### Visualizing LiDAR points in 3D
+### Visualizing 3D LiDAR points in Open3D
 <p align="center">
 <img src="https://github.com/mjoshi07/Visual-Sensor-Fusion/blob/main/Data/output/videos/visualizing_lildar.gif"/>
+</p>
+
+### 3D Lidar Points Projected on the image plane
+<p align="center">
+<img src="https://github.com/mjoshi07/Visual-Sensor-Fusion/blob/main/Data/output/videos/out4_lidar_small.gif"/>
 </p>
 
 ### LiDAR points Fused with YOLO detections 
