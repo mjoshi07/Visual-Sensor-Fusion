@@ -24,7 +24,7 @@
 <img src="https://github.com/mjoshi07/Visual-Sensor-Fusion/blob/main/Data/output/videos/out4_fused_small.gif"/>
 </p>
 
-* LiDAR points are projected on the image using calibration matrix and transformation matrix
+* LiDAR points are projected on the image using camera instrinsic and extrinsic matrix
 * The points that lie within the detected 2D Bounding Box by YOLO are stored and rest are ignored
 * There are some outliers inside bboxes that do not belong to that category, to reject these outliers there are several ways.
 * One way is to shrink the bounding box size so that the points that absolutely belong to the desired objects are only considered.
