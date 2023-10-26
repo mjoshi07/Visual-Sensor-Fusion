@@ -60,6 +60,24 @@
 * Green Bounding Boxes are detected by YOlO whereas Blue Bounding Boxes are calculated using LiDAR points
 * YOLO missed 1 vehicle, whereas 2 vehicles are missed by LiDAR, one of which is half out of frame, at the bottom right side
 
+## Usage
+
+**Installation**
+
+```bash
+git clone git@github.com:mjoshi07/Visual-Sensor-Fusion.git
+pip install -r requirements.txt # we need numpy, open3d, opencv, etc.
+```
+
+**Run**
+
+you can choose low-level or mid-level fusion and visualization options in [main.py](./Code/main.py)`
+
+```bash
+cd Visual-Sensor-Fusion/Code
+python main.py
+```
+
 ## File Structure
     .
     ├── Code
@@ -97,7 +115,7 @@
        |  ├── ...
 
 ### TODO
-- [ ] Add Run Instructions
-- [ ] Add Dependencies
+- [x] Add Run Instructions
+- [x] Add Dependencies
 - [ ] Add References
 - [ ] High-Level Fusion
