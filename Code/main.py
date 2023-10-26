@@ -16,7 +16,7 @@ def low_level_fusion(data_dir, show_random_pcl=False, display_video=True,  save_
     imgs, pts, lbls, calbs = ut.load_data(data_dir)
 
     if save_video:
-        out_dir = os.path.join(data_dir, "output//videos")
+        out_dir = os.path.join(data_dir, "output/videos")
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
 
@@ -26,37 +26,25 @@ def low_level_fusion(data_dir, show_random_pcl=False, display_video=True,  save_
         o3d.visualization.draw_geometries([pcd])
 
     lidar2cam = l2c.LiDAR2Camera(calbs[0])
-    print("P :"+str(lidar2cam.P))
-    print("-")
-    print("RO "+str(lidar2cam.R0))
-    print("-")
-    print("Velo 2 Cam " +str(lidar2cam.V2C))
-
-    video_images = sorted(glob.glob(data_dir+"//test//video4//images/*.png"))
-    video_points = sorted(glob.glob(data_dir+"//test//video4//points/*.pcd"))
 
     result_video = []
 
-    weights = data_dir + "//model//yolov4//yolov4.weights"
-    config = data_dir + "//model//yolov4//yolov4.cfg"
-    names = data_dir + "//model//yolov4//coco.names"
+    weights = data_dir + "/model/yolov4/yolov4.weights"
+    config = data_dir + "/model/yolov4/yolov4.cfg"
+    names = data_dir + "/model/yolov4/coco.names"
 
     detector = yd.Detector(0.4)
     detector.load_model(weights, config, names)
 
-    image = cv2.imread(video_images[0])
-
-    if display_video:
-        cv2.namedWindow("fused_result", cv2.WINDOW_KEEPRATIO)
-
-    for idx, img_path in enumerate(video_images):
+    for idx, img_path in enumerate(imgs):
         image = cv2.imread(img_path)
         detections, image = detector.detect(image, True, True)
-        point_cloud = np.asarray(o3d.io.read_point_cloud(video_points[idx]).points)
-        # image = lu.display_lidar_on_image(lidar2cam, point_cloud, image)
+        point_cloud = np.asarray(o3d.io.read_point_cloud(pts[idx]).points)
+        lidar2img = lu.display_lidar_on_image(lidar2cam, point_cloud, image)
         pts_3D, pts_2D = lu.get_lidar_on_image(lidar2cam, point_cloud, (image.shape[1], image.shape[0]))
         image, _ = fu.lidar_camera_fusion(pts_3D, pts_2D, detections, image)
         if display_video:
+            cv2.imshow("projected_result", lidar2img)
             cv2.imshow("fused_result", image)
             cv2.waitKey(10)
         if save_video:
@@ -75,19 +63,16 @@ def mid_level_fusion(data_dir, index=0, display_image=True, save_image=False):
     imgs, pts, labels, calibs = ut.load_data(data_dir)
 
     if save_image:
-        out_dir = os.path.join(data_dir, "output//images")
+        out_dir = os.path.join(data_dir, "output/images")
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
 
-    weights = data_dir + "//model//yolov4//yolov4.weights"
-    config = data_dir + "//model//yolov4//yolov4.cfg"
-    names = data_dir + "//model//yolov4//coco.names"
+    weights = data_dir + "/model/yolov4/yolov4.weights"
+    config = data_dir + "/model/yolov4/yolov4.cfg"
+    names = data_dir + "/model/yolov4/coco.names"
 
     detector = yd.Detector(0.4)
     detector.load_model(weights, config, names)
-
-    if display_image:
-        cv2.namedWindow("fused_result", cv2.WINDOW_KEEPRATIO)
 
     """PIPELINE STARTS FROM HERE"""
 
@@ -98,7 +83,7 @@ def mid_level_fusion(data_dir, index=0, display_image=True, save_image=False):
     lidar2cam = l2c.LiDAR2Camera(calibs[index])
 
     # 1 - Run 2D object detection on image
-    detections, yolo_detections = detector.detect(image, draw_bboxes=False, display_labels=False)
+    detections, yolo_detections = detector.detect(image, draw_bboxes=True, display_labels=True)
 
     # load lidar points and project them inside 2d detection
     point_cloud = np.asarray(o3d.io.read_point_cloud(pts[index]).points)
@@ -131,7 +116,7 @@ def mid_level_fusion(data_dir, index=0, display_image=True, save_image=False):
         cv2.imshow("lidar_2d", lidar_2d)
         cv2.imshow("yolo_detections", yolo_detections)
         cv2.imshow("lidar_pts_img", lidar_pts_img)
-        cv2.imshow("final_image", final_image)
+        cv2.imshow("fused_result", final_image)
         cv2.waitKey(0)
     if save_image:
         cv2.imwrite(os.path.join(out_dir,"fused_result.png"), final_image)
@@ -140,6 +125,6 @@ def mid_level_fusion(data_dir, index=0, display_image=True, save_image=False):
 
 
 if __name__ == "__main__":
-    data_dir = "..//Data//"
+    data_dir = "../Data/"
     # low_level_fusion(data_dir, show_random_pcl=False, display_video=True, save_video=False)
     mid_level_fusion(data_dir, index=0, display_image=True, save_image=False)

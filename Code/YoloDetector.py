@@ -18,7 +18,7 @@ class Detector():
 
     def get_layers(self):
         ln = self.model.getLayerNames()
-        return [ln[i[0] - 1] for i in self.model.getUnconnectedOutLayers()]
+        return [ln[i - 1] for i in self.model.getUnconnectedOutLayers()]
 
     def read_names(self, names_path):
         f = open(names_path, "r")
@@ -96,4 +96,4 @@ class Detector():
 
                 detections.append([class_id, bbox, conf])
 
-        return np.array(detections), img
+        return np.array(detections, dtype='object'), img
